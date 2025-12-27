@@ -17,8 +17,10 @@ pipeline {
         stage('Build') {
             steps {
                 echo '构建项目...'
-                sh 'go build -o ${BINARY_NAME} main.go'
-                sh 'ls -lh ${BINARY_NAME}'
+                withEnv(["PATH+GO=/usr/local/go/bin"]) {
+                    sh 'go build -o ${BINARY_NAME} main.go'
+                    sh 'ls -lh ${BINARY_NAME}'
+                }
             }
         }
 
