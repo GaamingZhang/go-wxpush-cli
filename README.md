@@ -1,6 +1,6 @@
 # go-wxpush-cli
 
-一个简单的微信模板消息推送命令行工具，基于 Go 语言开发。用于推送本地Jenkins流水线信息到订阅微信公众号的特定用户。
+参考 https://github.com/hezhizheng/go-wxpush.git 项目。一个简单的微信模板消息推送命令行工具，基于 Go 语言开发。用于推送本地Jenkins流水线信息到订阅微信公众号的特定用户。
 
 ## 功能特性
 
