@@ -10,6 +10,8 @@ import (
 	"strings"       // 字符串操作包，提供字符串处理函数
 )
 
+var Version = "dev"
+
 // RequestParams 定义了请求参数的结构体
 // 用于存储命令行参数
 type RequestParams struct {
@@ -61,6 +63,8 @@ type TokenRequestParams struct {
 }
 
 func main() {
+	fmt.Printf("wxpush 版本: %s\n", Version)
+
 	// 定义命令行参数
 	var appID string      // 微信公众AppID
 	var secret string     // 微信公众AppSecret
