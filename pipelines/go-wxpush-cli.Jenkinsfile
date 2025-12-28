@@ -168,9 +168,9 @@ def cleanupOldBackups() {
         if [ "\${BACKUP_COUNT:-0}" -gt ${MAX_BACKUPS} ]; then
             DELETE_COUNT=\$((BACKUP_COUNT - MAX_BACKUPS))
             echo '需要删除 '\$DELETE_COUNT' 个旧备份'
-            ls -dt ${WXPUSH_DEPLOY_PATH}_backup_v* | tail -n \$DELETE_COUNT | while read dir; do
-                echo '删除旧备份: '\$dir
-                sudo rm -rf '\$dir'
+            for dir in \$(ls -dt ${WXPUSH_DEPLOY_PATH}_backup_v* | tail -n \$DELETE_COUNT); do
+                echo "删除旧备份: \$dir"
+                sudo rm -rf "\$dir" && echo "已删除: \$dir" || echo "删除失败: \$dir"
             done
         else
             echo '备份数量在限制范围内，无需清理'
