@@ -108,10 +108,7 @@ def deployToRemote(host, sshKey) {
         rsync -avz --delete --rsync-path="sudo rsync" -e "ssh -i ${sshKey} -o StrictHostKeyChecking=no" ${BINARY_NAME} "\$REMOTE:${DEPLOY_PATH}_new/"
         
         # 在远程服务器执行部署脚本
-        ssh -i "${sshKey}" -o StrictHostKeyChecking=no "\$REMOTE" "\$(cat <<'EOF'
-        ${deploy('remote')}
-        EOF
-        )"
+        ssh -i "${sshKey}" -o StrictHostKeyChecking=no "\$REMOTE" "${deploy('remote')}"
     """
 }
 
