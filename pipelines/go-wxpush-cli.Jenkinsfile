@@ -111,7 +111,9 @@ def deployToRemote() {
         rsync -avz --delete --rsync-path="sudo rsync" -e "ssh -i \${SSH_KEY} -o StrictHostKeyChecking=no" ${WXPUSH_BINARY_NAME} "\$REMOTE:${WXPUSH_DEPLOY_PATH}_new/"
         
         # 在远程服务器执行部署脚本
-        ssh -i "\${SSH_KEY}" -o StrictHostKeyChecking=no "\$REMOTE" "${deploy()}"
+        ssh -i "\${SSH_KEY}" -o StrictHostKeyChecking=no "\$REMOTE" bash <<'ENDSSH'
+        ${deploy()}
+        ENDSSH
     """
 }
 
