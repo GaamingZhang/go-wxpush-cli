@@ -112,8 +112,8 @@ def deployToRemote() {
         
         # 在远程服务器执行部署脚本
         ssh -i "\${SSH_KEY}" -o StrictHostKeyChecking=no "\$REMOTE" bash <<'ENDSSH'
-        ${deploy()}
-        ENDSSH
+${deploy()}
+ENDSSH
     """
 }
 
