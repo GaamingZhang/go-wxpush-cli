@@ -124,7 +124,7 @@ def deploy(type) {
         ${backupOldVersion(type)}
         
         # 使用 rsync 同步新版本到部署路径（自动处理新增、修改和删除的文件）
-        rsync -avz --delete ${DEPLOY_PATH}_new/ ${DEPLOY_PATH}/
+        sudo rsync -avz --delete ${DEPLOY_PATH}_new/ ${DEPLOY_PATH}/
         
         # 删除临时目录
         sudo rm -rf ${DEPLOY_PATH}_new
