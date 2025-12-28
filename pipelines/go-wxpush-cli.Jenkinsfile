@@ -86,8 +86,8 @@ def deployToLocal() {
     sh """
         # 复制新二进制文件到待部署文件夹
         echo "复制新二进制文件 ${BINARY_NAME} 到待部署文件夹 ${DEPLOY_PATH}_new..."
-        sudo rm -f ${DEPLOY_PATH}_new && sudo mkdir -p ${DEPLOY_PATH}_new
-        cp ${BINARY_NAME} ${DEPLOY_PATH}_new/
+        sudo rm -rf ${DEPLOY_PATH}_new && sudo mkdir -p ${DEPLOY_PATH}_new
+        sudo cp ${BINARY_NAME} ${DEPLOY_PATH}_new/
         
         ${deploy('local')}
     """
