@@ -94,22 +94,24 @@ def deployToLocal() {
 }
 
 def deployToRemote(host, sshKey) {
-    sh """
-        set -e
-        REMOTE="${TENCENT_NODE_DEPLOY_USER}@${host}"
-        echo "连接远程服务器: \$REMOTE"
-        echo "部署版本: ${VERSION}"
-        
-        # 在远程服务器删除旧目录并创建新目录
-        ssh -i "${sshKey}" -o StrictHostKeyChecking=no "\$REMOTE" "sudo rm -rf ${DEPLOY_PATH}_new && sudo mkdir -p ${DEPLOY_PATH}_new"
-        
-        # 同步二进制文件到远程服务器
-        echo "同步二进制文件..."
-        rsync -avz --delete --rsync-path="sudo rsync" -e "ssh -i ${sshKey} -o StrictHostKeyChecking=no" ${BINARY_NAME} "\$REMOTE:${DEPLOY_PATH}_new/"
-        
-        # 在远程服务器执行部署脚本
-        ssh -i "${sshKey}" -o StrictHostKeyChecking=no "\$REMOTE" "${deploy('remote')}"
-    """
+    withEnv(["DEPLOY_HOST=${host}", "SSH_KEY=${sshKey}"]) {
+        sh """
+            set -e
+            REMOTE="${TENCENT_NODE_DEPLOY_USER}@\${DEPLOY_HOST}"
+            echo "连接远程服务器: \$REMOTE"
+            echo "部署版本: ${VERSION}"
+            
+            # 在远程服务器删除旧目录并创建新目录
+            ssh -i "\${SSH_KEY}" -o StrictHostKeyChecking=no "\$REMOTE" "sudo rm -rf ${DEPLOY_PATH}_new && sudo mkdir -p ${DEPLOY_PATH}_new"
+            
+            # 同步二进制文件到远程服务器
+            echo "同步二进制文件..."
+            rsync -avz --delete --rsync-path="sudo rsync" -e "ssh -i \${SSH_KEY} -o StrictHostKeyChecking=no" ${BINARY_NAME} "\$REMOTE:${DEPLOY_PATH}_new/"
+            
+            # 在远程服务器执行部署脚本
+            ssh -i "\${SSH_KEY}" -o StrictHostKeyChecking=no "\$REMOTE" "${deploy('remote')}"
+        """
+    }
 }
 
 def deploy(type) {
