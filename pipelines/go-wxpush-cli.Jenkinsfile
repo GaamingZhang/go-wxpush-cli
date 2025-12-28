@@ -11,6 +11,9 @@ pipeline {
         MAX_BACKUPS = 10
     }
 
+    // TODO: 部署前生成 official_wxpush_<buildNumber> 分支
+    // TODO： 根据 指定分支 拉取代码
+    // TODO: 增加 stage 回滚到上一个版本
     stages {
         stage('Checkout') {
             steps {
