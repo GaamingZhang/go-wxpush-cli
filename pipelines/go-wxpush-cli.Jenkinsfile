@@ -164,10 +164,10 @@ def backupOldVersion(type) {
 
 def cleanupOldBackups(type) {
     def cleanupScript = """
-        BACKUP_COUNT=\$(ls -d ${DEPLOY_PATH}_backup_v* 2>/dev/null | wc -l)
+        BACKUP_COUNT=\$(ls -d ${DEPLOY_PATH}_backup_v* 2>/dev/null | wc -l | tr -d ' ')
         echo '当前备份数量: '\$BACKUP_COUNT
         
-        if [ \$BACKUP_COUNT -gt ${MAX_BACKUPS} ]; then
+        if [ "\${BACKUP_COUNT:-0}" -gt ${MAX_BACKUPS} ]; then
             DELETE_COUNT=\$((BACKUP_COUNT - MAX_BACKUPS))
             echo '需要删除 '\$DELETE_COUNT' 个旧备份'
             ls -dt ${DEPLOY_PATH}_backup_v* | tail -n \$DELETE_COUNT | while read dir; do
