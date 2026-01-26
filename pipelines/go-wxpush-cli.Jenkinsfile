@@ -5,8 +5,12 @@ pipeline {
         GO_VERSION = '1.21'
         WXPUSH_DEPLOY_PATH = '/var/wxpush'
         WXPUSH_BINARY_NAME = 'wxpush'
-        TENCENT_NODE_DEPLOY_USER = 'ubuntu'
+        TENCENT_NODE_IP = 'TencentNodeIP'
+        TENCENT_NODE_DEPLOY_USER = 'TencentNodeDeployUser'
         TENCENT_NODE_SSH_KEY_CREDENTIAL = 'TencentNodeSSHKey'
+        TENCENT_GUANGZHOU_NODE_IP = 'TencentGuangzhouNodeIP'
+        TENCENT_GUANGZHOU_NODE_DEPLOY_USER = 'TencentGuangzhouNodeDeployUser'
+        TENCENT_GUANGZHOU_NODE_SSH_KEY_CREDENTIAL = 'TencentGuangzhouNodeSSH'
         VERSION = "${BUILD_NUMBER}"
         MAX_BACKUPS = 10
     }
@@ -44,12 +48,27 @@ pipeline {
             }
         }
 
-        stage('Copy to remote server') {
+        stage('Copy to Tencent Node') {
             steps {
                 script {
                     withCredentials([
                         string(credentialsId: 'TencentNodeIP', variable: 'DEPLOY_HOST'),
+                        string(credentialsId: 'TencentNodeDeployUser', variable: 'DEPLOY_USER'),
                         sshUserPrivateKey(credentialsId: TENCENT_NODE_SSH_KEY_CREDENTIAL, keyFileVariable: 'SSH_KEY')
+                    ]) {
+                        deployToRemote()
+                    }
+                }
+            }
+        }
+
+        stage('Copy to Tencent Guangzhou Node') {
+            steps {
+                script {
+                    withCredentials([
+                        string(credentialsId: 'TencentGuangzhouNodeIP', variable: 'DEPLOY_HOST'),
+                        string(credentialsId: 'TencentGuangzhouNodeDeployUser', variable: 'DEPLOY_USER'),
+                        sshUserPrivateKey(credentialsId: TENCENT_GUANGZHOU_NODE_SSH_KEY_CREDENTIAL, keyFileVariable: 'SSH_KEY')
                     ]) {
                         deployToRemote()
                     }
@@ -99,7 +118,7 @@ def deployToLocal() {
 def deployToRemote() {
     sh """
         set -e
-        REMOTE="${TENCENT_NODE_DEPLOY_USER}@\${DEPLOY_HOST}"
+        REMOTE="\${DEPLOY_USER}@\${DEPLOY_HOST}"
         echo "连接远程服务器: \$REMOTE"
         echo "部署版本: ${VERSION}"
         
