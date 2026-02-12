@@ -8,11 +8,11 @@ pipeline {
 
         ALI_BEIJING_NODE_IP = 'AliBeijingNodeIP'
         ALI_BEIJING_NODE_DEPLOY_USER = 'AliBeijingNodeDeployUser'
-        ALI_BEIJING_NODE_SSH_KEY_CREDENTIAL = 'AliBeijingNodeSSHKey'
+        ALI_BEIJING_NODE_SSH_KEY_CREDENTIAL = 'AliBeijingNodeSSH'
 
         TENCENT_GUANGZHOU_NODE_IP = 'TencentGuangzhouNodeIP'
         TENCENT_GUANGZHOU_NODE_DEPLOY_USER = 'TencentGuangzhouNodeDeployUser'
-        TENCENT_GUANGZHOU_NODE_SSH_KEY_CREDENTIAL = 'TencentGuangzhouNodeSSHKey'
+        TENCENT_GUANGZHOU_NODE_SSH_KEY_CREDENTIAL = 'TencentGuangzhouNodeSSH'
 
         VERSION = "${BUILD_NUMBER}"
         MAX_BACKUPS = 10
