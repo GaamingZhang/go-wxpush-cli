@@ -5,12 +5,15 @@ pipeline {
         GO_VERSION = '1.21'
         WXPUSH_DEPLOY_PATH = '/var/wxpush'
         WXPUSH_BINARY_NAME = 'wxpush'
-        TENCENT_NODE_IP = 'TencentNodeIP'
-        TENCENT_NODE_DEPLOY_USER = 'TencentNodeDeployUser'
-        TENCENT_NODE_SSH_KEY_CREDENTIAL = 'TencentNodeSSHKey'
+
+        ALI_BEIJING_NODE_IP = 'AliBeijingNodeIP'
+        ALI_BEIJING_NODE_DEPLOY_USER = 'AliBeijingNodeDeployUser'
+        ALI_BEIJING_NODE_SSH_KEY_CREDENTIAL = 'AliBeijingNodeSSHKey'
+
         TENCENT_GUANGZHOU_NODE_IP = 'TencentGuangzhouNodeIP'
         TENCENT_GUANGZHOU_NODE_DEPLOY_USER = 'TencentGuangzhouNodeDeployUser'
-        TENCENT_GUANGZHOU_NODE_SSH_KEY_CREDENTIAL = 'TencentGuangzhouNodeSSH'
+        TENCENT_GUANGZHOU_NODE_SSH_KEY_CREDENTIAL = 'TencentGuangzhouNodeSSHKey'
+
         VERSION = "${BUILD_NUMBER}"
         MAX_BACKUPS = 10
     }
@@ -48,13 +51,13 @@ pipeline {
             }
         }
 
-        stage('Copy to Tencent Node') {
+        stage('Copy to Ali Beijing Node') {
             steps {
                 script {
                     withCredentials([
-                        string(credentialsId: 'TencentNodeIP', variable: 'DEPLOY_HOST'),
-                        string(credentialsId: 'TencentNodeDeployUser', variable: 'DEPLOY_USER'),
-                        sshUserPrivateKey(credentialsId: TENCENT_NODE_SSH_KEY_CREDENTIAL, keyFileVariable: 'SSH_KEY')
+                        string(credentialsId: ALI_BEIJING_NODE_IP, variable: 'DEPLOY_HOST'),
+                        string(credentialsId: ALI_BEIJING_NODE_DEPLOY_USER, variable: 'DEPLOY_USER'),
+                        sshUserPrivateKey(credentialsId: ALI_BEIJING_NODE_SSH_KEY_CREDENTIAL, keyFileVariable: 'SSH_KEY')
                     ]) {
                         deployToRemote()
                     }
